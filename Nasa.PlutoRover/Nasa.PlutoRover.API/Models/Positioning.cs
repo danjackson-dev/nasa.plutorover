@@ -48,10 +48,10 @@ namespace Nasa.PlutoRover.API.Models
 			switch (direction.ToString().ToUpper())
 			{
 				case "F":
-					this.y++;
+					DriveRover('F');
 					break;
 				case "B":
-					this.y--;
+					DriveRover('B');
 					break;
 				case "L":
 					RotateRover('L');
@@ -62,7 +62,35 @@ namespace Nasa.PlutoRover.API.Models
 			}
 
 		}
+		
+		#endregion
 
+		#region Private Methods
+
+		private string _jsonFileLocation = "c:\\nasa\\plutorover\\position.json";
+
+		private void DriveRover(char direction)
+		{
+
+			switch (direction)
+			{
+				case 'F':
+					if (this.heading == CompassHeading.N) { this.y++; }
+					if (this.heading == CompassHeading.E) { this.x++; }
+					if (this.heading == CompassHeading.S) { this.y--; }
+					if (this.heading == CompassHeading.W) { this.x--; }
+					break;
+				case 'B':
+					if (this.heading == CompassHeading.N) { this.y--; }
+					if (this.heading == CompassHeading.E) { this.x--; }
+					if (this.heading == CompassHeading.S) { this.y++; }
+					if (this.heading == CompassHeading.W) { this.x++; }
+					break;
+			}
+
+		}
+
+		/// <summary>Rotate the rover left and right</summary>
 		private void RotateRover(char direction)
 		{
 
@@ -79,7 +107,7 @@ namespace Nasa.PlutoRover.API.Models
 					}
 					break;
 				case 'R':
-					if (this.heading == CompassHeading.W )
+					if (this.heading == CompassHeading.W)
 					{
 						this.heading = CompassHeading.N;
 					}
@@ -91,12 +119,6 @@ namespace Nasa.PlutoRover.API.Models
 			}
 
 		}
-		
-		#endregion
-
-		#region Private Methods
-
-		private string _jsonFileLocation = "c:\\nasa\\plutorover\\position.json";
 
 		/// <summary>Load properties from a persistent Json file</summary>
 		private void LoadFromJson()

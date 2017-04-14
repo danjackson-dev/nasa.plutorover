@@ -24,22 +24,7 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 			Assert.AreEqual(0, result.y);
 			Assert.AreEqual(Positioning.CompassHeading.N, result.heading);
 		}
-
-		[TestMethod]
-		public void MoveRover_Forward()
-		{
-			Positioning result = (new PositioningRepo()).MoveRover('F');
-
-			Assert.AreEqual(1, result.y);
-		}
-
-		[TestMethod]
-		public void MoveRover_Backwards()
-		{
-			Positioning result = (new PositioningRepo()).MoveRover('B');
-			Assert.AreEqual(-1, result.y);
-		}
-
+		
 		#endregion
 
 		#region Object Method Tests
@@ -51,6 +36,38 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 			bool result = obj.SaveToJson();
 
 			Assert.AreEqual(true, result);
+		}
+
+		[TestMethod]
+		public void MoveRover_Forward()
+		{
+			Positioning result = new Positioning();
+			result.MoveRover('F');
+			Assert.AreEqual(1, result.y);
+		}
+
+		[TestMethod]
+		public void MoveRover_Backwards()
+		{
+			Positioning result = new Positioning();
+			result.MoveRover('B');
+			Assert.AreEqual(-1, result.y);
+		}
+
+		[TestMethod]
+		public void MoveRover_Left()
+		{
+			Positioning result = new Positioning();
+			result.MoveRover('L');
+			Assert.AreEqual(Positioning.CompassHeading.W, result.heading);
+		}
+
+		[TestMethod]
+		public void MoveRover_Right()
+		{
+			Positioning result = new Positioning();
+			result.MoveRover('R');
+			Assert.AreEqual(Positioning.CompassHeading.E, result.heading);
 		}
 
 		#endregion

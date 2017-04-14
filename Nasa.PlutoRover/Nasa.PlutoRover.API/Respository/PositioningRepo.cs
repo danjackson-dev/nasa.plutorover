@@ -14,24 +14,5 @@ namespace Nasa.PlutoRover.API.Respository
 			return new Positioning();
 		}
 
-		public Positioning MoveRover(char direction)
-		{
-
-			Positioning position = GetPositioning();
-
-			switch (direction.ToString().ToUpper())
-			{
-				case "F":
-					position.y++;
-					break;
-				case "B":
-					position.y--;
-					break;
-			}
-
-			return position;
-
-		}
-
 	}
 }

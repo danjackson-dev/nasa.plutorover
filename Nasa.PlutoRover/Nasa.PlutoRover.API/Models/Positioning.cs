@@ -40,6 +40,60 @@ namespace Nasa.PlutoRover.API.Models
 
 		#endregion
 
+		#region Public Methods
+
+		public void MoveRover(char direction)
+		{
+
+			switch (direction.ToString().ToUpper())
+			{
+				case "F":
+					this.y++;
+					break;
+				case "B":
+					this.y--;
+					break;
+				case "L":
+					RotateRover('L');
+					break;
+				case "R":
+					RotateRover('R');
+					break;
+			}
+
+		}
+
+		private void RotateRover(char direction)
+		{
+
+			switch (direction)
+			{
+				case 'L':
+					if (this.heading == CompassHeading.N)
+					{
+						this.heading = CompassHeading.W;
+					}
+					else
+					{
+						this.heading--;
+					}
+					break;
+				case 'R':
+					if (this.heading == CompassHeading.W )
+					{
+						this.heading = CompassHeading.N;
+					}
+					else
+					{
+						this.heading++;
+					}
+					break;
+			}
+
+		}
+		
+		#endregion
+
 		#region Private Methods
 
 		private string _jsonFileLocation = "c:\\nasa\\plutorover\\position.json";

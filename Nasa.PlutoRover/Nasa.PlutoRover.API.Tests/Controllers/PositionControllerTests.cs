@@ -10,7 +10,7 @@ namespace Nasa.PlutoRover.API.Tests
 	public class PositionControllerTests
 	{
 		[TestMethod]
-		public void TestMethod1()
+		public void GetCurrentPositionTest()
 		{
 
 			var controller = new PositionController();

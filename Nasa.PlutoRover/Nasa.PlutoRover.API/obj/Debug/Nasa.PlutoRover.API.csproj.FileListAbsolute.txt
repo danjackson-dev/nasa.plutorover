@@ -23,6 +23,5 @@ E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\bin\Newtonsoft.J
 E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\bin\System.Net.Http.Formatting.xml
 E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\bin\System.Web.Http.xml
 E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\bin\System.Web.Http.WebHost.xml
-E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\obj\Debug\Nasa.PlutoRover.API.csprojResolveAssemblyReference.cache
 E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\obj\Debug\Nasa.PlutoRover.API.dll
 E:\FundApps\Nasa.PlutoRover\Nasa.PlutoRover\Nasa.PlutoRover.API\obj\Debug\Nasa.PlutoRover.API.pdb

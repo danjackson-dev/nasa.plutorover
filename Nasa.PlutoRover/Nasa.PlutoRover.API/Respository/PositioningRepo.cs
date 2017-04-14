@@ -16,7 +16,21 @@ namespace Nasa.PlutoRover.API.Respository
 
 		public Positioning MoveRover(char direction)
 		{
-			throw new NotImplementedException();
+
+			Positioning position = GetPositioning();
+
+			switch (direction.ToString().ToUpper())
+			{
+				case "F":
+					position.y++;
+					break;
+				case "B":
+					position.y--;
+					break;
+			}
+
+			return position;
+
 		}
 
 	}

@@ -25,11 +25,18 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 		}
 
 		[TestMethod]
-		public void MoveRover()
+		public void MoveRover_Forward()
 		{
 			Positioning result = (new PositioningRepo()).MoveRover('F');
 
 			Assert.AreEqual(1, result.y);
+		}
+
+		[TestMethod]
+		public void MoveRover_Backwards()
+		{
+			Positioning result = (new PositioningRepo()).MoveRover('B');
+			Assert.AreEqual(-1, result.y);
 		}
 
 	}

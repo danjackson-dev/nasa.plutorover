@@ -12,6 +12,7 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 	[TestClass]
 	public class PositioningRepoTest
 	{
+		#region Repo Tests
 
 		[TestMethod]
 		public void GetPositioningTest()
@@ -38,6 +39,21 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 			Positioning result = (new PositioningRepo()).MoveRover('B');
 			Assert.AreEqual(-1, result.y);
 		}
+
+		#endregion
+
+		#region Object Method Tests
+
+		[TestMethod]
+		public void SaveJsonFile()
+		{
+			Positioning obj = new Positioning();
+			bool result = obj.SaveToJson();
+
+			Assert.AreEqual(true, result);
+		}
+
+		#endregion
 
 	}
 }

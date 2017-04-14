@@ -24,5 +24,13 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 			Assert.AreEqual(Positioning.CompassHeading.N, result.heading);
 		}
 
+		[TestMethod]
+		public void MoveRover()
+		{
+			Positioning result = (new PositioningRepo()).MoveRover('F');
+
+			Assert.AreEqual(1, result.y);
+		}
+
 	}
 }

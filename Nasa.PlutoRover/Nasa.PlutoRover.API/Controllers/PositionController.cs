@@ -12,6 +12,7 @@ namespace Nasa.PlutoRover.API.Controllers
 
 		public IHttpActionResult GetCurrentPosition()
 		{
+
 			return Ok(new object());
 		}
 

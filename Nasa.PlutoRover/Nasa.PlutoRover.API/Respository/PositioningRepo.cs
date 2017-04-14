@@ -14,5 +14,10 @@ namespace Nasa.PlutoRover.API.Respository
 			return new Positioning();
 		}
 
+		public Positioning GetPositioning_Deafult()
+		{
+			return new Positioning(false);
+		}
+
 	}
 }

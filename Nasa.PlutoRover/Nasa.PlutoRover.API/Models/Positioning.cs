@@ -12,7 +12,10 @@ namespace Nasa.PlutoRover.API.Models
 
 		#region Constructors
 
-		public Positioning() {}
+		public Positioning()
+		{
+			LoadFromJson();
+		}
 
 		public Positioning(bool initializeFromJson)
 		{
@@ -42,23 +45,28 @@ namespace Nasa.PlutoRover.API.Models
 
 		#region Public Methods
 
-		public void MoveRover(char direction)
+		public void MoveRover(string directions)
 		{
 
-			switch (direction.ToString().ToUpper())
-			{
-				case "F":
-					DriveRover('F');
-					break;
-				case "B":
-					DriveRover('B');
-					break;
-				case "L":
-					RotateRover('L');
-					break;
-				case "R":
-					RotateRover('R');
-					break;
+			foreach(char direction in directions.ToCharArray())
+			{ 
+
+				switch (direction)
+				{
+					case 'F':
+						DriveRover(direction);
+						break;
+					case 'B':
+						DriveRover(direction);
+						break;
+					case 'L':
+						RotateRover(direction);
+						break;
+					case 'R':
+						RotateRover(direction);
+						break;
+				}
+
 			}
 
 		}

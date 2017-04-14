@@ -181,6 +181,31 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 			Assert.AreEqual(0, result.x);
 		}
 
+		[TestMethod]
+		public void MoveRover_Collision_Hit()
+		{
+			Positioning result = new Positioning(false);
+			result.heading = Positioning.CompassHeading.N;
+			result.x = 50;
+			result.y = 49;
+			Assert.AreEqual(50, result.x);
+			Assert.AreEqual(49, result.y);
+			Assert.AreEqual(false, result.MoveRover("F"));
+
+		}
+
+		[TestMethod]
+		public void MoveRover_Collision_Miss()
+		{
+			Positioning result = new Positioning(false);
+			result.heading = Positioning.CompassHeading.N;
+			result.x = 50;
+			result.y = 49;
+			Assert.AreEqual(50, result.x);
+			Assert.AreEqual(49, result.y);
+			Assert.AreEqual(true, result.MoveRover("B"));
+
+		}
 
 		#endregion
 

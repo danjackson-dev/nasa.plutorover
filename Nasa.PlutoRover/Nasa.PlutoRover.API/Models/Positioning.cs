@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 
 namespace Nasa.PlutoRover.API.Models
@@ -15,9 +11,9 @@ namespace Nasa.PlutoRover.API.Models
 		private const string _jsonFileLocation = "c:\\nasa\\plutorover\\position.json";
 		private const int gridMaxX = 99;	// 99 as grid position begins at 0 (100x100 grid)
 		private const int gridMaxY = 99;
+		private bool collisionDetected = false;
 
 		#endregion
-
 
 		#region Constructors
 
@@ -38,8 +34,18 @@ namespace Nasa.PlutoRover.API.Models
 
 		#region Public Properties
 
-		public int x { get; set; } = 0;
-		public int y { get; set; } = 0;
+		private int _x = 0;
+		public int x
+		{
+			get { return _x; }
+			set { _x = value;  _preX = value; }
+		}
+		private int _y = 0;
+		public int y
+		{
+			get { return _y; }
+			set { _y = value; _preY = value; }
+		}
 		public CompassHeading heading { get; set; } = CompassHeading.N;
 
 		public enum CompassHeading
@@ -52,9 +58,41 @@ namespace Nasa.PlutoRover.API.Models
 
 		#endregion
 
+		#region Private Properties
+
+		private int _preX;
+		private int preX
+		{
+			get
+			{
+				return _preX;
+			}
+			set
+			{
+				_preX = value;
+				this.x = !DetectCollision() ? _preX : this.x;
+				_preX = this.x;
+			}
+		}
+		private int _preY;
+		private int preY {
+			get
+			{
+				return _preY;
+			}
+			set
+			{
+				_preY = value;
+				this.y = !DetectCollision() ? _preY : this.y;
+				_preY = this.y;
+			}
+		}
+
+		#endregion
+
 		#region Public Methods
 
-		public void MoveRover(string directions)
+		public bool MoveRover(string directions)
 		{
 
 			foreach (char direction in directions.ToCharArray())
@@ -76,7 +114,16 @@ namespace Nasa.PlutoRover.API.Models
 						break;
 				}
 
+				// Completed all commands until a collision has been detected, return false
+				if (this.collisionDetected)
+				{
+					return false;
+				}
+
 			}
+
+			// Completed all commands successfully
+			return true;
 
 		}
 
@@ -95,29 +142,33 @@ namespace Nasa.PlutoRover.API.Models
 					if (this.heading == CompassHeading.N)
 					{
 						// Implement wrapping.
-						if (this.y == gridMaxY) { this.y = 0; break; }
-						this.y++; break;
+						if (this.preY == gridMaxY)
+						{
+							this.preY = 0;
+							break;
+						}
+						this.preY++; break;
 					}
 					// Move east
 					if (this.heading == CompassHeading.E)
 					{
 						// Implement wrapping
-						if (this.x == gridMaxX) { this.x = 0; break; }
-						this.x++; break;
+						if (this.preX == gridMaxX) { this.preX = 0; break; }
+						this.preX++; break;
 					}
 					// Move south
 					if (this.heading == CompassHeading.S)
 					{
 						// Implement wrapping
-						if (this.y == 0) { this.y = gridMaxY; break; }
-						this.y--; break;
+						if (this.preY == 0) { this.preY = gridMaxY; break; }
+						this.preY--; break;
 					}
 					// Move west
 					if (this.heading == CompassHeading.W)
 					{
 						// Implement wrapping
-						if (this.x == 0) { this.x = gridMaxX; break; }
-						this.x--; break;
+						if (this.preX == 0) { this.preX = gridMaxX; break; }
+						this.preX--; break;
 					}
 					break;
 
@@ -125,27 +176,46 @@ namespace Nasa.PlutoRover.API.Models
 				case 'B':
 					if (this.heading == CompassHeading.N)
 					{
-						if (this.y == 0) { this.y = gridMaxY; break; }
-						this.y--; break;
+						if (this.preY == 0) { this.preY = gridMaxY; break; }
+						this.preY--; break;
 					}
 					if (this.heading == CompassHeading.E)
 					{
-						if (this.x == 0) { this.x = gridMaxX; break; }
-						this.x--; break;
+						if (this.preX == 0) { this.preX = gridMaxX; break; }
+						this.preX--; break;
 					}
 					if (this.heading == CompassHeading.S)
 					{
-						if (this.y == gridMaxY) { this.y = 0; break; }
-						this.y++; break;
+						if (this.preY == gridMaxY) { this.preY = 0; break; }
+						this.preY++; break;
 					}
 					if (this.heading == CompassHeading.W)
 					{
-						if (this.x == gridMaxX) { this.x = 0; break; }
-						this.x++; break;
+						if (this.preX == gridMaxX) { this.preX = 0; break; }
+						this.preX++; break;
 					}
 					break;
 			}
 
+		}
+
+		private bool DetectCollision()
+		{
+			// An array of collisions on the map
+			string[] collisionArray = new string[] { "50,50", "25,25" };
+
+			string nextCoordinates = this.preX.ToString() + "," + this.preY.ToString();
+
+			for (int i = 0; i < collisionArray.Length; i++)
+			{
+				if (nextCoordinates == collisionArray[i])
+				{
+					this.collisionDetected = true;
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/// <summary>Rotate the rover left and right</summary>
@@ -190,6 +260,8 @@ namespace Nasa.PlutoRover.API.Models
 				dynamic fromJson = JsonConvert.DeserializeObject<dynamic>(json);
 				this.x = fromJson.x;
 				this.y = fromJson.y;
+				this.preX = this.x;
+				this.preY = this.y;
 				this.heading = fromJson.heading;
 			}
 

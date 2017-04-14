@@ -10,6 +10,15 @@ namespace Nasa.PlutoRover.API.Models
 	public class Positioning
 	{
 
+		#region Constants
+
+		private const string _jsonFileLocation = "c:\\nasa\\plutorover\\position.json";
+		private const int gridMaxX = 99;	// 99 as grid position begins at 0 (100x100 grid)
+		private const int gridMaxY = 99;
+
+		#endregion
+
+
 		#region Constructors
 
 		public Positioning()
@@ -48,8 +57,8 @@ namespace Nasa.PlutoRover.API.Models
 		public void MoveRover(string directions)
 		{
 
-			foreach(char direction in directions.ToCharArray())
-			{ 
+			foreach (char direction in directions.ToCharArray())
+			{
 
 				switch (direction)
 				{
@@ -70,29 +79,70 @@ namespace Nasa.PlutoRover.API.Models
 			}
 
 		}
-		
+
 		#endregion
 
 		#region Private Methods
-
-		private string _jsonFileLocation = "c:\\nasa\\plutorover\\position.json";
 
 		private void DriveRover(char direction)
 		{
 
 			switch (direction)
 			{
+				// Move forward
 				case 'F':
-					if (this.heading == CompassHeading.N) { this.y++; }
-					if (this.heading == CompassHeading.E) { this.x++; }
-					if (this.heading == CompassHeading.S) { this.y--; }
-					if (this.heading == CompassHeading.W) { this.x--; }
+					// Move north
+					if (this.heading == CompassHeading.N)
+					{
+						// Implement wrapping.
+						if (this.y == gridMaxY) { this.y = 0; break; }
+						this.y++; break;
+					}
+					// Move east
+					if (this.heading == CompassHeading.E)
+					{
+						// Implement wrapping
+						if (this.x == gridMaxX) { this.x = 0; break; }
+						this.x++; break;
+					}
+					// Move south
+					if (this.heading == CompassHeading.S)
+					{
+						// Implement wrapping
+						if (this.y == 0) { this.y = gridMaxY; break; }
+						this.y--; break;
+					}
+					// Move west
+					if (this.heading == CompassHeading.W)
+					{
+						// Implement wrapping
+						if (this.x == 0) { this.x = gridMaxX; break; }
+						this.x--; break;
+					}
 					break;
+
+				// Move backwards
 				case 'B':
-					if (this.heading == CompassHeading.N) { this.y--; }
-					if (this.heading == CompassHeading.E) { this.x--; }
-					if (this.heading == CompassHeading.S) { this.y++; }
-					if (this.heading == CompassHeading.W) { this.x++; }
+					if (this.heading == CompassHeading.N)
+					{
+						if (this.y == 0) { this.y = gridMaxY; break; }
+						this.y--; break;
+					}
+					if (this.heading == CompassHeading.E)
+					{
+						if (this.x == 0) { this.x = gridMaxX; break; }
+						this.x--; break;
+					}
+					if (this.heading == CompassHeading.S)
+					{
+						if (this.y == gridMaxY) { this.y = 0; break; }
+						this.y++; break;
+					}
+					if (this.heading == CompassHeading.W)
+					{
+						if (this.x == gridMaxX) { this.x = 0; break; }
+						this.x++; break;
+					}
 					break;
 			}
 

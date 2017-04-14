@@ -51,7 +51,7 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 		{
 			Positioning result = new Positioning(false);
 			result.MoveRover("B");
-			Assert.AreEqual(-1, result.y);
+			Assert.AreEqual(99, result.y);
 		}
 
 		[TestMethod]
@@ -83,7 +83,7 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 		{
 			Positioning result = new Positioning(false);
 			result.MoveRover("BBB");
-			Assert.AreEqual(-3, result.y);
+			Assert.AreEqual(97, result.y);
 		}
 
 		[TestMethod]
@@ -135,6 +135,50 @@ namespace Nasa.PlutoRover.API.Tests.Repository
 			Assert.AreEqual(4, result.y);
 			Assert.AreEqual(2, result.x);
 			Assert.AreEqual(Positioning.CompassHeading.W, result.heading);
+		}
+
+		[TestMethod]
+		public void MoveRover_Wrapping_N0_100()
+		{
+			Positioning result = new Positioning(false);
+			result.heading = Positioning.CompassHeading.N;
+			result.y = 0;
+			Assert.AreEqual(0, result.y);
+			result.MoveRover("B");
+			Assert.AreEqual(99, result.y);
+		}
+
+		[TestMethod]
+		public void MoveRover_Wrapping_E0_100()
+		{
+			Positioning result = new Positioning(false);
+			result.heading = Positioning.CompassHeading.E;
+			result.x = 0;
+			Assert.AreEqual(0, result.x);
+			result.MoveRover("B");
+			Assert.AreEqual(99, result.x);
+		}
+
+		[TestMethod]
+		public void MoveRover_Wrapping_N100_0()
+		{
+			Positioning result = new Positioning(false);
+			result.heading = Positioning.CompassHeading.N;
+			result.y = 99;
+			Assert.AreEqual(99, result.y);
+			result.MoveRover("F");
+			Assert.AreEqual(0, result.y);
+		}
+
+		[TestMethod]
+		public void MoveRover_Wrapping_E100_0()
+		{
+			Positioning result = new Positioning(false);
+			result.heading = Positioning.CompassHeading.E;
+			result.x = 99;
+			Assert.AreEqual(99, result.x);
+			result.MoveRover("F");
+			Assert.AreEqual(0, result.x);
 		}
 
 
